@@ -22,7 +22,6 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            /* Новий стильний фон */
             background: radial-gradient(circle at center, #1e1e2f, #111119, #050505);
             background-attachment: fixed;
             background-size: cover;
@@ -74,7 +73,10 @@
             animation: fadeInUp 1.2s ease-out;
         }
 
+        /* Виправлено: картка тепер є посиланням (<a>) */
         .game-card {
+            display: block;
+            text-decoration: none;
             position: relative;
             width: 400px;
             height: 550px;
@@ -99,6 +101,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
             transition: transform 0.5s ease;
         }
 
@@ -166,15 +169,29 @@
     </header>
 
     <main class="games-container" id="gamesGrid">
-        <div class="game-card">
-            <a href="https://platon-lab.github.io/Shadow-Match/" target="_blank" style="text-decoration: none; color: inherit;">
-                <img src="Shadow.png" alt="Shadow Match Game">
-                <div class="play-overlay">
-                    <span class="play-icon">👤</span>
-                    <span class="play-text">ГРАТИ</span>
-                </div>
-            </a>
-        </div>
+        <a href="https://platon-lab.github.io/Shadow-Match/" target="_blank" class="game-card">
+            <img src="Shadow.png" alt="Shadow Match Game">
+            <div class="play-overlay">
+                <span class="play-icon">👤</span>
+                <span class="play-text">ГРАТИ</span>
+            </div>
+        </a>
+
+        <a href="https://platon-lab.github.io/Maze/" target="_blank" class="game-card">
+            <img src="Maze.png" alt="Maze Escape Game">
+            <div class="play-overlay">
+                <span class="play-icon">🌽</span>
+                <span class="play-text">ГРАТИ</span>
+            </div>
+        </a>
+
+        <a href="https://platon-lab.github.io/Fruit-Ninja/" target="_blank" class="game-card">
+            <img src="Fruit.png" alt="Fruit Ninja Game">
+            <div class="play-overlay">
+                <span class="play-icon">🍉</span>
+                <span class="play-text">ГРАТИ</span>
+            </div>
+        </a>
     </main>
 
 </body>
