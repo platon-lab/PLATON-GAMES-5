@@ -73,7 +73,6 @@
             animation: fadeInUp 1.2s ease-out;
         }
 
-        /* Виправлено: картка тепер є посиланням (<a>) */
         .game-card {
             display: block;
             text-decoration: none;
@@ -143,6 +142,60 @@
             color: white;
         }
 
+        /* --- ЕФЕКТИ ЛАГУ --- */
+        .lag-active {
+            animation: intense-shake 0.1s infinite alternate, glitch-color 0.2s infinite;
+            filter: contrast(200%) brightness(150%);
+            pointer-events: none;
+        }
+
+        @keyframes intense-shake {
+            0% { transform: translate(0, 0) skew(0deg); }
+            20% { transform: translate(-10px, 5px) skew(5deg); }
+            40% { transform: translate(15px, -10px) skew(-10deg); }
+            60% { transform: translate(-20px, 15px) skew(15deg); }
+            80% { transform: translate(10px, -5px) skew(-5deg); }
+            100% { transform: translate(-5px, 10px) skew(2deg); }
+        }
+
+        @keyframes glitch-color {
+            0% { background: #ff0000; }
+            33% { background: #00ff00; }
+            66% { background: #0000ff; }
+            100% { background: #1e1e2f; }
+        }
+
+        #warning-text {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            color: red;
+            text-shadow: 0 0 20px black;
+            z-index: 10000;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        #end-video-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 20000;
+        }
+
+        #end-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
         /* Анімації */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-50px); }
@@ -157,6 +210,7 @@
             h1 { font-size: 2.5rem; letter-spacing: 3px; }
             .game-card { width: 85vw; height: 120vw; }
             body { padding: 20px 10px; }
+            #warning-text { font-size: 2rem; }
         }
     </style>
 </head>
@@ -193,6 +247,52 @@
             </div>
         </a>
     </main>
+
+    <div id="warning-text">(Я ПОПЕРЕДЖУВАВ!)</div>
+    <div id="end-video-container">
+        <video id="endVideo">
+            <source src="End.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <script>
+        let clicks = 0;
+        const body = document.getElementById('mainBody');
+        const warning = document.getElementById('warning-text');
+        const videoContainer = document.getElementById('end-video-container');
+        const video = document.getElementById('endVideo');
+
+        document.addEventListener('click', function(e) {
+            // Перевіряємо, чи клік був НЕ по картці гри
+            if (!e.target.closest('.game-card')) {
+                clicks++;
+                
+                if (clicks === 20) {
+                    // 1. Починає лагати
+                    body.classList.add('lag-active');
+                    
+                    // 2. Через 3 секунди з'являється напис
+                    setTimeout(() => {
+                        warning.style.display = 'block';
+                        
+                        // 3. Ще через 3 секунди - відео
+                        setTimeout(() => {
+                            body.classList.remove('lag-active');
+                            warning.style.display = 'none';
+                            videoContainer.style.display = 'block';
+                            video.play();
+                            
+                            // 4. Після закінчення відео - перехід
+                            video.onended = function() {
+                                window.location.href = "https://platon-lab.github.io/Bossfight/";
+                            };
+                        }, 3000);
+                        
+                    }, 3000);
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
